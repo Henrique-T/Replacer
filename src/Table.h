@@ -10,6 +10,7 @@
 /*
 * Represents a page table or a frame page table.
 * It can be one of two kinds: "page table" or "frame table".
+* It stores blocks with references to page frames.
 */
 class Table
 {
@@ -20,6 +21,7 @@ private:
 
 public:
 	std::string *blocks; /* Later on it will be changed to a vector of Blocks */
+	Table();
 	Table(std::string _kind, std::size_t _maxSize);
 	Table(std::string _kind);
 	~Table(); /* No need to explicitly call it */

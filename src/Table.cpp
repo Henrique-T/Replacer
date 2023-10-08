@@ -5,6 +5,8 @@
 #include <bits/stdc++.h>
 #include "Table.h"
 
+Table::Table() {}
+
 Table::Table(std::string _kind, std::size_t _maxSize)
 {
 	kind = _kind; /* "page table" or "frame table" */

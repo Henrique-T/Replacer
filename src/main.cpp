@@ -4,6 +4,7 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include "Table.h"
+#include "Block.h"
 
 using namespace std;
 
@@ -28,10 +29,16 @@ int main(int argc, char *argv[])
 	}
 
 	/* Print table content */
-	for (size_t i = 0; i < table.getSize(); i++)
-	{
-		std::cout << i << ":" << table.at(i) << std::endl;
-	}
+	// for (size_t i = 0; i < table.getSize(); i++)
+	// {
+	// 	std::cout << i << ":" << table.at(i) << std::endl;
+	// }
+
+	/* Test Block creation and get variables */
+	// Block block(0, "Page");
+	// std::cout << block.getId() << std::endl;
+	// std::cout << block.getKind() << std::endl;
+	// std::cout << block.isBlockPresent() << std::endl;
 
 	return 0;
 }
