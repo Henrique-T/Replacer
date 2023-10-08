@@ -17,7 +17,7 @@ Table::Table(std::string _kind, std::size_t _maxSize)
 
 Table::Table(std::string _kind)
 {
-	kind = _kind; /* "page table" or "frame table" */
+	kind = _kind;
 	maxSize = 20; /* Default size */
 	blocks = new std::string[maxSize];
 	size = -1;
@@ -34,6 +34,20 @@ void Table::pushBack(const std::string &_data)
 		throw std::out_of_range("table is full");
 	size = size + 1;
 	blocks[size] = _data;
+}
+
+void Table::pushFront(const std::string &_data)
+{
+	if (full())
+		throw std::out_of_range("List is full");
+	size += 1;
+	size_t position = size;
+	while (position > 0)
+	{
+		blocks[position] = blocks[position - 1];
+		position = position - 1;
+	}
+	blocks[0] = _data;
 }
 
 void Table::insert(const std::string &_data, std::size_t _index) {}

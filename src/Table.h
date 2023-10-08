@@ -27,6 +27,7 @@ public:
 	~Table(); /* No need to explicitly call it */
 
 	void pushBack(const std::string &_data);
+	void pushFront(const std::string &_data);
 	void insert(const std::string &_data, std::size_t _index);
 
 	std::string popBack();
