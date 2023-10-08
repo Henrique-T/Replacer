@@ -9,9 +9,9 @@ Table::Table() {}
 
 Table::Table(std::string _kind, std::size_t _maxSize)
 {
-	kind = _kind; /* "page table" or "frame table" */
+	kind = _kind;
 	maxSize = _maxSize;
-	blocks = new std::string[_maxSize];
+	blocks = new Block[_maxSize];
 	size = -1;
 }
 
@@ -19,7 +19,7 @@ Table::Table(std::string _kind)
 {
 	kind = _kind;
 	maxSize = 20; /* Default size */
-	blocks = new std::string[maxSize];
+	blocks = new Block[maxSize];
 	size = -1;
 }
 
@@ -28,7 +28,7 @@ Table::~Table()
 	delete[] blocks;
 }
 
-void Table::pushBack(const std::string &_data)
+void Table::pushBack(const Block &_data)
 {
 	if (full())
 		throw std::out_of_range("table is full");
@@ -36,7 +36,7 @@ void Table::pushBack(const std::string &_data)
 	blocks[size] = _data;
 }
 
-void Table::pushFront(const std::string &_data)
+void Table::pushFront(const Block &_data)
 {
 	if (full())
 		throw std::out_of_range("List is full");
@@ -50,25 +50,25 @@ void Table::pushFront(const std::string &_data)
 	blocks[0] = _data;
 }
 
-void Table::insert(const std::string &_data, std::size_t _index) {}
+void Table::insert(const Block &_data, std::size_t _index) {}
 
-std::string Table::popBack()
+Block Table::popBack()
 {
 	if (empty())
 		throw std::out_of_range("table is empty");
 
-	std::string aux;
+	Block aux;
 	aux = blocks[size];
 	size = size - 1;
 	return aux;
 }
 
-std::string Table::popFront()
+Block Table::popFront()
 {
 	if (empty())
 		throw std::out_of_range("table is empty");
 
-	std::string aux = blocks[0];
+	Block aux = blocks[0];
 	std::size_t position = 0;
 	while (position < size)
 	{
@@ -90,7 +90,7 @@ bool Table::empty()
 	return (size == a);
 }
 
-std::string &Table::at(size_t _index)
+Block &Table::at(size_t _index)
 {
 	if (empty())
 		throw std::out_of_range("table is empty");

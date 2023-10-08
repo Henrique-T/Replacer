@@ -14,8 +14,8 @@
 class Block
 {
 private:
-	int id;
-	int presence;
+	int id;			  /* Given as program input */
+	int presence;	  /* Presence bit */
 	std::string kind; /* "Page" or "Frame" */
 
 public:
