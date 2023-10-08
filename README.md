@@ -2,7 +2,7 @@
 
 Build using these:
 
-g++ main.cpp Table.cpp -o simulador -ansi -pedantic -Wall -Wextra -Weffc++
+g++ main.cpp Table.cpp -o simulador -ansi -pedantic -Wall -Wextra
 
 or
 

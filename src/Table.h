@@ -15,14 +15,14 @@ class Table
 {
 private:
 	std::string kind;
-	std::size_t size;	 /* Current size */
+	std::size_t size;	 /* Current size. WARNING: this points to the position of the last item. */
 	std::size_t maxSize; /* Actual size of the table */
 
 public:
 	std::string *blocks; /* Later on it will be changed to a vector of Blocks */
 	Table(std::string _kind, std::size_t _maxSize);
 	Table(std::string _kind);
-	~Table(); /* Automatically called. No need to explicitly call it */
+	~Table(); /* No need to explicitly call it */
 
 	void pushBack(const std::string &_data);
 	void insert(const std::string &_data, std::size_t _index);

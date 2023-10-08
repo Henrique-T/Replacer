@@ -89,5 +89,6 @@ std::size_t Table::getMaxSize()
 
 std::size_t Table::getSize()
 {
-	return size;
+	/* Returns size + 1 because size points to the position of the last item inserted. */
+	return size + 1;
 }
