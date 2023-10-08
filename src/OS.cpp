@@ -10,15 +10,22 @@ OS::~OS() {}
 
 void OS::algorithm() {}
 
-void OS::pushBackPageToPT(Block _page) {}
-void OS::pushFrontPageToPT(Block _page) {}
-Block OS::popBackPageFromPT(Block _page) {}
-Block OS::popFrontPageFromPT(Block _page) {}
+void OS::moveFrameToDisk(Block _block)
+{
+	disk.push_back(_block);
+}
 
-void OS::pushBackFrameToFT(Block _frame) {}
-void OS::pushFrontFrameToFT(Block _frame) {}
-Block OS::popBackFrameFromPT(Block _frame) {}
-Block OS::popFrontFrameFromPT(Block _frame) {}
-
-void OS::moveFrameToDisk(int _id) {}
-Block OS::getFrameFromDisk(int _id) {}
+Block OS::getFrameFromDisk(int _id)
+{
+	if (disk.empty())
+		throw std::out_of_range("Disk is empty");
+	for (size_t i = 0; i < disk.size(); i++)
+	{
+		if (disk[i].getId() == _id)
+		{
+			return disk[i];
+		}
+	}
+	Block block;
+	return block;
+}
