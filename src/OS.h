@@ -26,14 +26,9 @@ public:
 	OS();
 	~OS();
 
-	/* 
-	* Generic method that receives parameters to decide what algorithm to use.
-	* We are still unsure if this should be a separate class or not.	
-	*/
-	void algorithm();
-
 	void moveFrameToDisk(Block _block);
 	Block getFrameFromDisk(int _id);
+	Block removeFrameFromDisk(int _id);
 };
 
 #endif

@@ -25,21 +25,21 @@ int main(int argc, char *argv[])
 	/* 
 	* What data should we initialize them with? 
 	*/
-	Table pageTable("page table", VIRTUAL_SPACE_SIZE);
-	Table frameTable("frame table", QTY_FRAMES);
+	// Table pageTable("page table", VIRTUAL_SPACE_SIZE);
+	// Table frameTable("frame table", QTY_FRAMES);
 
 	/* Create blocks with presence=0 and populate page table */
-	for (size_t i = 0; i < references.size(); i++)
-	{
-		Block newBlock(atoi(references[i].c_str()), "Page");
-		pageTable.pushBack(newBlock);
-	}
+	// for (size_t i = 0; i < references.size(); i++)
+	// {
+	// 	Block newBlock(atoi(references[i].c_str()), "Page");
+	// 	pageTable.pushBack(newBlock);
+	// }
 
 	// /* Print table content */
-	for (size_t i = 0; i < pageTable.getSize(); i++)
-	{
-		std::cout << i << ":" << pageTable.at(i).getId() << ":" << pageTable.at(i).isBlockPresent() << std::endl;
-	}
+	// for (size_t i = 0; i < pageTable.getSize(); i++)
+	// {
+	// 	std::cout << i << ":" << pageTable.at(i).getId() << ":" << pageTable.at(i).isBlockPresent() << std::endl;
+	// }
 
 	/* TESTS */
 
