@@ -2,7 +2,7 @@
 
 ## Build using these:
 
-g++ main.cpp Table.cpp Block.cpp OS.cpp -o simulador -ansi -pedantic -Wall -Wextra
+g++ main.cpp Table.cpp Block.cpp OS.cpp Optimal.cpp LRU.cpp FIFO.cpp Algorithm.cpp -o simulador -ansi -pedantic -Wall -Wextra
 
 or
 

@@ -33,15 +33,13 @@ std::vector<std::string> &Algorithm::getReferences()
 void Algorithm::runAlgorithm()
 {
 	// FIFO
-	for (const std::string &reference : references)
-	{
-		// 1. try to find that reference in PT
-		// 2. If found, go to FT to get the pageinsert to FT the necessary page
-		// 3. If not found, print "PAGE FAULT"
-		// 3.1 Get the first inserted page in FT and remove it
-		// 3.2 bring the requested page from disk and insert that into FT.
-		// 3.3. Update PT mapping
-	}
+	// For each reference in references
+	// 1. try to find that reference in PT
+	// 2. If found, go to FT to get the pageinsert to FT the necessary page
+	// 3. If not found, print "PAGE FAULT"
+	// 3.1 Get the first inserted page in FT and remove it
+	// 3.2 bring the requested page from disk and insert that into FT.
+	// 3.3. Update PT mapping
 
 	// LRU
 	// Optimal

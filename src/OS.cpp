@@ -24,7 +24,7 @@ Block &OS::getFrameFromDisk(int _id)
 			return disk[i];
 		}
 	}
-	Block block;
+	static Block block;
 	return block;
 }
 
