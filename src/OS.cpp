@@ -13,7 +13,7 @@ void OS::moveFrameToDisk(Block _block)
 	disk.push_back(_block);
 }
 
-Block OS::getFrameFromDisk(int _id)
+Block &OS::getFrameFromDisk(int _id)
 {
 	if (disk.empty())
 		throw std::out_of_range("Disk is empty");
@@ -28,4 +28,8 @@ Block OS::getFrameFromDisk(int _id)
 	return block;
 }
 
-Block OS::removeFrameFromDisk(int _id) {}
+Block &OS::removeFrameFromDisk(int _id) {}
+
+FIFO &OS::getFifo() { return fifo; }
+LRU &OS::getLru() { return lru; }
+Optimal &OS::getOptiomal() { return optimal; }

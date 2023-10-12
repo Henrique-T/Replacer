@@ -8,27 +8,33 @@
 #include <bits/stdc++.h>
 #include "Table.h"
 #include "Block.h"
+#include "FIFO.h"
+#include "LRU.h"
+#include "Optimal.h"
 
 /*
 * Represents the operating system.
-* For now, the MMU is integrated in here. We are not sure if we'll keep this way.
+* The MMU is integrated in here.
 * Responsible for inserting and removing pages and frames of pages.
-* FT = Frame Table; PT = Page Table
 */
 class OS
 {
 private:
-	Table pageTable;
-	Table frameTable;
 	std::vector<Block> disk;
+	FIFO fifo;
+	LRU lru;
+	Optimal optimal;
 
 public:
 	OS();
 	~OS();
 
 	void moveFrameToDisk(Block _block);
-	Block getFrameFromDisk(int _id);
-	Block removeFrameFromDisk(int _id);
+	Block &getFrameFromDisk(int _id);
+	Block &removeFrameFromDisk(int _id);
+	FIFO &getFifo();
+	LRU &getLru();
+	Optimal &getOptiomal();
 };
 
 #endif

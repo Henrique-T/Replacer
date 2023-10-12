@@ -18,6 +18,8 @@
 class Algorithm
 {
 private:
+	Table pageTable;
+	Table frameTable;
 	std::vector<std::string> references;
 
 public:
@@ -26,6 +28,7 @@ public:
 	~Algorithm();
 
 	std::vector<std::string> &getReferences();
+	void runAlgorithm();
 };
 
 #endif

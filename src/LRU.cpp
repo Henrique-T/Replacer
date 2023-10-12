@@ -1,6 +1,3 @@
-#ifndef FIFO_H
-#define FIFO_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -9,16 +6,8 @@
 #include "Algorithm.h"
 #include "Table.h"
 #include "Block.h"
+#include "LRU.h"
 
-/*
-*
-*/
-class FIFO : public Algorithm
-{
-private:
-public:
-	FIFO();
-	~FIFO();
-};
+LRU::LRU() {}
 
-#endif
+LRU::~LRU() {}

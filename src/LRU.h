@@ -11,10 +11,12 @@
 /*
 *
 */
-class LRU : Algorithm /* default is private inheritance */
+class LRU : public Algorithm
 {
 private:
 public:
+	LRU();
+	~LRU();
 };
 
 #endif

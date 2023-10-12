@@ -11,10 +11,12 @@
 /*
 *
 */
-class Optimal : Algorithm /* default is private inheritance */
+class Optimal : public Algorithm
 {
 private:
 public:
+	Optimal();
+	~Optimal();
 };
 
 #endif
