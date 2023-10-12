@@ -8,8 +8,6 @@
 OS::OS() {}
 OS::~OS() {}
 
-void OS::algorithm() {}
-
 void OS::moveFrameToDisk(Block _block)
 {
 	disk.push_back(_block);
@@ -29,3 +27,5 @@ Block OS::getFrameFromDisk(int _id)
 	Block block;
 	return block;
 }
+
+Block OS::removeFrameFromDisk(int _id) {}
