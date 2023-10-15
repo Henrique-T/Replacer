@@ -11,6 +11,7 @@
 #include "FIFO.h"
 #include "LRU.h"
 #include "Optimal.h"
+#include "Algorithm.h"
 
 /*
 * Represents the operating system.
@@ -27,6 +28,7 @@ private:
 
 public:
 	OS();
+	OS(std::vector<std::string> &_references);
 	~OS();
 
 	void moveFrameToDisk(Block _block);

@@ -38,10 +38,18 @@ public:
 	bool empty();
 
 	/* Returns block at a given position */
-	Block &at(size_t _index);
+	Block &at(std::size_t _index);
+	/* Returns position of given block */
+	std::size_t find(const std::string &_blockId);
+	/* Checks if block exists and if it is present */
+	bool contains(const std::string &_blockId);
 
 	std::size_t getMaxSize();
 	std::size_t getSize();
+	void setKind(const std::string &_kind);
+	void setSize(const std::size_t _size);
+	void setMaxSize(const std::size_t _maxSize);
+	void setBlocks();
 };
 
 #endif

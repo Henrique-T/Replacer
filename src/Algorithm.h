@@ -24,10 +24,14 @@ private:
 
 public:
 	Algorithm();
-	Algorithm(std::vector<std::string> &_references);
 	~Algorithm();
 
 	std::vector<std::string> &getReferences();
+	void setReferences(std::vector<std::string> &_references);
+	Table &getPageTable();
+
+	void fillPageTable();
+
 	void runAlgorithm();
 };
 

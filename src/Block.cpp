@@ -12,6 +12,8 @@ Block::Block(int _id, std::string _kind)
 	id = _id;
 	kind = _kind;
 	presence = 0;
+	addressInFT = "";
+	counter = 0;
 }
 
 Block::~Block() {}
@@ -30,3 +32,9 @@ std::string Block::getKind()
 {
 	return kind;
 }
+
+std::string Block::getAddressInFT() { return addressInFT; }
+void Block::setAddressInFT(std::string &_address) { addressInFT = _address; }
+
+int Block::getCounter() { return counter; }
+int Block::incrementCounter(int _increment) { counter = counter + _increment; }

@@ -9,20 +9,6 @@
 
 Algorithm::Algorithm() {}
 
-Algorithm::Algorithm(std::vector<std::string> &_references)
-{
-	references = _references;
-
-	/* Populate PT with the new blocks.
-	*  Presence bit = 0 for each block.
-	*/
-	for (size_t i = 0; i < _references.size(); i++)
-	{
-		Block newBlock(atoi(_references[i].c_str()), "Page");
-		pageTable.pushBack(newBlock);
-	}
-}
-
 Algorithm::~Algorithm() {}
 
 std::vector<std::string> &Algorithm::getReferences()
@@ -30,10 +16,32 @@ std::vector<std::string> &Algorithm::getReferences()
 	return references;
 }
 
+void Algorithm::setReferences(std::vector<std::string> &_references)
+{
+	references = _references;
+}
+
+Table &Algorithm::getPageTable()
+{
+	return pageTable;
+}
+
+void Algorithm::fillPageTable()
+{
+	/* Populate PT with the new blocks.
+	*  Presence bit = 0 for each block.
+	*/
+	std::cout << "PT initial size: " << pageTable.getSize() << std::endl;
+	for (size_t i = 0; i < references.size(); i++)
+	{
+		Block newBlock(atoi(references[i].c_str()), "Page");
+		getPageTable().pushBack(newBlock);
+	}
+	std::cout << "PT final size: " << pageTable.getSize() << std::endl;
+}
+
 void Algorithm::runAlgorithm()
 {
-	void runAlgorithm();
-
 	// FIFO
 	// For each reference in references
 	// 1. try to find that reference in PT
@@ -42,6 +50,34 @@ void Algorithm::runAlgorithm()
 	// 3.1 Get the first inserted page in FT and remove it.
 	// 3.2 bring the requested page from disk and insert that into FT.
 	// 3.3. Update PT mapping (meaning, set presence bits)
+
+	std::cout << "FIFO" << std::endl;
+
+	// for (std::size_t i = 0; i < references.size(); i++)
+	// {
+	// 	std::cout << references.at(i) << std::endl;
+	// }
+
+	for (std::size_t i = 0; i < references.size(); i++)
+	{
+		if (pageTable.contains(references[i]))
+		{
+			std::cout << "Page found in PT!" << std::endl;
+
+			std::size_t blockIndex = pageTable.find(references[i]);
+			std::string address = pageTable.at(blockIndex).getAddressInFT(); /* How to define position? */
+			Block block = frameTable.at(atoi(address.c_str()));
+			std::cout << "Block " << block.getId() << "was gotten from FT" << std::endl;
+		}
+		else
+		{
+			std::cout << "Page fault!" << std::endl;
+			Block oldestBlockInFT = frameTable.popFront();
+			// _os.moveFrameToDisk(oldestBlockInFT);
+			// Block requestedBlock = _os.getFrameFromDisk(atoi(references[i].c_str()));
+			// pageTable.pushFront(requestedBlock);
+		}
+	}
 
 	// LRU
 	// Each page has a counter.

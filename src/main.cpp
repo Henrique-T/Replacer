@@ -22,10 +22,10 @@ int main(int argc, char *argv[])
 	}
 
 	/* Create OS instance and call algorithms */
-	OS os;
+	OS os(references);
 	os.getFifo().runAlgorithm();
-	os.getOptiomal().runAlgorithm();
-	os.getLru().runAlgorithm();
+	// os.getOptiomal().runAlgorithm();
+	// os.getLru().runAlgorithm();
 
 	/* TESTS */
 	/* 
