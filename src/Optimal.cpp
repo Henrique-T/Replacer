@@ -1,6 +1,3 @@
-#ifndef FIFO_H
-#define FIFO_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -9,16 +6,8 @@
 #include "Algorithm.h"
 #include "Table.h"
 #include "Block.h"
+#include "Optimal.h"
 
-/*
-*
-*/
-class FIFO : public Algorithm
-{
-private:
-public:
-	FIFO();
-	~FIFO();
-};
+Optimal::Optimal() {}
 
-#endif
+Optimal::~Optimal() {}

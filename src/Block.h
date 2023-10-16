@@ -14,9 +14,11 @@
 class Block
 {
 private:
-	int id;			  /* Given as program input */
-	int presence;	  /* Presence bit */
-	std::string kind; /* "Page" or "Frame" */
+	int id;					 /* Given as program input */
+	int presence;			 /* Presence bit */
+	std::string kind;		 /* "Page" or "Frame" */
+	std::string addressInFT; /* Address stored in PT that maps to FT */
+	int counter;
 
 public:
 	Block();
@@ -26,6 +28,10 @@ public:
 	int getId();
 	bool isBlockPresent();
 	std::string getKind();
+	std::string getAddressInFT();
+	void setAddressInFT(std::string &_address);
+	int getCounter();
+	int incrementCounter(int _increment);
 };
 
 #endif
