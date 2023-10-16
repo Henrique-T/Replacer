@@ -11,3 +11,10 @@
 FIFO::FIFO() {}
 
 FIFO::~FIFO() {}
+
+void FIFO::run(Table pageTable, Table frameTable) {
+    runAlgorithm(
+        pageTable, 
+        frameTable
+    );
+}

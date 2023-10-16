@@ -13,7 +13,7 @@ Block::Block(int _id, std::string _kind)
 	kind = _kind;
 	presence = 0;
 	addressInFT = "";
-	counter = 0;
+	counter = 1; // Starting counter as 1 in the constructor
 }
 
 Block::~Block() {}

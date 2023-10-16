@@ -21,6 +21,9 @@
 class OS
 {
 private:
+	Table pageTable;
+	Table frameTable;
+	std::vector<std::string> references;
 	std::vector<Block> disk;
 	FIFO fifo;
 	LRU lru;
@@ -28,7 +31,7 @@ private:
 
 public:
 	OS();
-	OS(std::vector<std::string> &_references);
+	OS(std::vector<std::string> &_references, int QTY_FRAMES);
 	~OS();
 
 	void moveFrameToDisk(Block _block);
@@ -37,6 +40,14 @@ public:
 	FIFO &getFifo();
 	LRU &getLru();
 	Optimal &getOptiomal();
+
+	Table &getPageTable();
+	void fillPageTable();
+	void resetPageTable();
+
+	void runFIFO();
+	void runLRU();
+	void runOptimal();
 };
 
 #endif

@@ -21,27 +21,10 @@ void Algorithm::setReferences(std::vector<std::string> &_references)
 	references = _references;
 }
 
-Table &Algorithm::getPageTable()
-{
-	return pageTable;
-}
 
-void Algorithm::fillPageTable()
+void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
 {
-	/* Populate PT with the new blocks.
-	*  Presence bit = 0 for each block.
-	*/
-	std::cout << "PT initial size: " << pageTable.getSize() << std::endl;
-	for (size_t i = 0; i < references.size(); i++)
-	{
-		Block newBlock(atoi(references[i].c_str()), "Page");
-		getPageTable().pushBack(newBlock);
-	}
-	std::cout << "PT final size: " << pageTable.getSize() << std::endl;
-}
-
-void Algorithm::runAlgorithm()
-{
+	int pageFaults = 0;
 	// FIFO
 	// For each reference in references
 	// 1. try to find that reference in PT
@@ -72,6 +55,8 @@ void Algorithm::runAlgorithm()
 		else
 		{
 			std::cout << "Page fault!" << std::endl;
+			pageFaults += 1;
+			
 			Block oldestBlockInFT = frameTable.popFront();
 			// _os.moveFrameToDisk(oldestBlockInFT);
 			// Block requestedBlock = _os.getFrameFromDisk(atoi(references[i].c_str()));
