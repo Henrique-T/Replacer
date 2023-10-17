@@ -7,17 +7,16 @@
 
 using namespace std;
 
-
 /* HELPER FUNCTIONS AREA */
 
 // Used to convert any value to strings
 template <typename T>
-    std::string to_string(T value)
-    {
-      std::ostringstream os;
-      os << value;
-      return os.str();
-    }
+std::string to_string(T value)
+{
+	std::ostringstream os;
+	os << value;
+	return os.str();
+}
 
 /* END OF HELPER FUNCTIONS AREA */
 
@@ -78,28 +77,39 @@ void OS::fillPageTable()
 	/* Populate PT with the new blocks.
 	*  Presence bit = 0 for each block.
 	*/
-	Table pageTable = getPageTable();
+	// Table pageTable = getPageTable();
+	// for (size_t i = 0; i < references.size(); i++)
+	// {
+	// 	string blockId = references[i];
+	// 	Block newBlock(atoi(blockId.c_str()), "Page");
+	// 	if (pageTable.contains(blockId)) {
+	// 		delete &newBlock;
+	// 		Block existingBlock = pageTable.at(blockId);
+	// 	}
+
+	// 	getPageTable().pushBack(newBlock);
+	// }
 	std::cout << "PT initial size: " << pageTable.getSize() << std::endl;
-	for (size_t i = 0; i < references.size(); i++)
+	for (std::size_t i = 0; i < references.size(); i++)
 	{
 		string blockId = references[i];
-		Block newBlock(atoi(blockId.c_str()), "Page");
-		if (pageTable.contains(blockId)) {
-			delete &newBlock;
-			Block existingBlock = pageTable.at(blockId);
+		if (!pageTable.contains(blockId))
+		{
+			Block newBlock(atoi(blockId.c_str()), "Page");
+			getPageTable().pushBack(newBlock);
 		}
-
-		getPageTable().pushBack(newBlock);
 	}
 	std::cout << "PT final size: " << pageTable.getSize() << std::endl;
 }
 
-void OS::resetPageTable() {
+void OS::resetPageTable()
+{
 	// We should think how we can free the memory allocated by the previous FT
 	fillPageTable();
 }
 
-void OS::runFIFO() {
+void OS::runFIFO()
+{
 	getFifo().run(
 		pageTable,
 		frameTable
@@ -108,7 +118,8 @@ void OS::runFIFO() {
 	resetPageTable(); // Every end of algorithm resets the page table
 }
 
-void OS::runLRU() {
+void OS::runLRU()
+{
 	getLru().runAlgorithm(
 		pageTable,
 		frameTable
@@ -117,7 +128,8 @@ void OS::runLRU() {
 	resetPageTable(); // Every end of algorithm resets the page table
 }
 
-void OS::runOptimal() {
+void OS::runOptimal()
+{
 	getOptiomal().runAlgorithm(
 		pageTable,
 		frameTable
