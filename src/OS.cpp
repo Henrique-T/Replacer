@@ -21,24 +21,28 @@ std::string to_string(T value)
 /* END OF HELPER FUNCTIONS AREA */
 
 OS::OS() {}
-OS::OS(std::vector<std::string> &_references, int QTY_FRAMES)
+
+OS::OS(std::vector<std::string> &_references, int &QTY_FRAMES)
 {
+	/* 
+	* If we create an instance of Table here to then assign it to frameTable,
+	* it causes seg fault.
+	*/
 	references = _references;
+
+	pageTable.setKind("page table");
+	pageTable.setMaxSize(_references.size());
+	pageTable.setBlocks();
+	pageTable.setSize(-1);
+
 	fillPageTable();
 
-	// Instantiating frame tables
-	Table _frameTable("frame table", QTY_FRAMES);
-	frameTable = _frameTable;
-
-	// /* This is terrible, but it is what it is. */
-	// fifo.getPageTable().setKind("page table");
-	// fifo.getPageTable().setMaxSize(_references.size());
-	// fifo.getPageTable().setBlocks();
-	// fifo.getPageTable().setSize(-1);
-
-	// fifo.setReferences(_references); // This should set references for all algos
-	// fifo.fillPageTable();			 // This should fill PT for all algos
+	frameTable.setKind("frame table");
+	frameTable.setMaxSize(QTY_FRAMES);
+	frameTable.setBlocks();
+	frameTable.setSize(-1);
 }
+
 OS::~OS() {}
 
 void OS::moveFrameToDisk(Block _block)
@@ -77,6 +81,17 @@ void OS::fillPageTable()
 	/* Populate PT with the new blocks.
 	*  Presence bit = 0 for each block.
 	*/
+	std::cout << "PT initial size: " << pageTable.getSize() << std::endl;
+	for (std::size_t i = 0; i < references.size(); i++)
+	{
+		string blockId = references[i];
+		if (!pageTable.contains(blockId))
+		{
+			Block newBlock(atoi(blockId.c_str()), "Page");
+			getPageTable().pushBack(newBlock);
+		}
+	}
+
 	// Table pageTable = getPageTable();
 	// for (size_t i = 0; i < references.size(); i++)
 	// {
@@ -89,22 +104,19 @@ void OS::fillPageTable()
 
 	// 	getPageTable().pushBack(newBlock);
 	// }
-	std::cout << "PT initial size: " << pageTable.getSize() << std::endl;
-	for (std::size_t i = 0; i < references.size(); i++)
-	{
-		string blockId = references[i];
-		if (!pageTable.contains(blockId))
-		{
-			Block newBlock(atoi(blockId.c_str()), "Page");
-			getPageTable().pushBack(newBlock);
-		}
-	}
+
 	std::cout << "PT final size: " << pageTable.getSize() << std::endl;
 }
 
 void OS::resetPageTable()
 {
 	// We should think how we can free the memory allocated by the previous FT
+	/**
+	 * If we use delete[] pageTable.blocks here, we will have to initialize it again.
+	 * For example:
+	 * 1. delete[] pageTable.blocks;
+	 * 2. pageTable.blocks = new Block[size]
+	*/
 	fillPageTable();
 }
 

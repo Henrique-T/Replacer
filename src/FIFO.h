@@ -20,7 +20,7 @@ public:
 	FIFO();
 	~FIFO();
 
-	void run(Table pageTable, Table frameTable) {};
+	void run(Table pageTable, Table frameTable);
 };
 
 #endif

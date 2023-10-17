@@ -31,7 +31,7 @@ private:
 
 public:
 	OS();
-	OS(std::vector<std::string> &_references, int QTY_FRAMES);
+	OS(std::vector<std::string> &_references, int &QTY_FRAMES);
 	~OS();
 
 	void moveFrameToDisk(Block _block);
