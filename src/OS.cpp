@@ -22,13 +22,14 @@ std::string to_string(T value)
 
 OS::OS() {}
 
-OS::OS(std::vector<std::string> &_references, int &QTY_FRAMES)
+OS::OS(std::vector<std::string> &_references, int &_QTY_FRAMES)
 {
 	/* 
 	* If we create an instance of Table here to then assign it to frameTable,
 	* it causes seg fault.
 	*/
 	references = _references;
+	QTY_FRAMES = _QTY_FRAMES;
 
 	pageTable.setKind("page table");
 	pageTable.setMaxSize(_references.size());
@@ -117,9 +118,12 @@ void OS::resetPageTable()
 	 * 1. delete[] pageTable.blocks;
 	 * 2. pageTable.blocks = new Block[size]
 	*/
+
 	delete[] pageTable.blocks;
+	pageTable.setSize(-1);
+	pageTable.setMaxSize(QTY_FRAMES);
 	pageTable.blocks = new Block[references.size()];
-	fillPageTable();
+	//fillPageTable();
 }
 
 void OS::runFIFO()

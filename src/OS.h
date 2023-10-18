@@ -21,6 +21,7 @@
 class OS
 {
 private:
+	int QTY_FRAMES;
 	Table pageTable;
 	Table frameTable;
 	std::vector<std::string> references;
@@ -31,7 +32,7 @@ private:
 
 public:
 	OS();
-	OS(std::vector<std::string> &_references, int &QTY_FRAMES);
+	OS(std::vector<std::string> &_references, int &_QTY_FRAMES);
 	~OS();
 
 	void moveFrameToDisk(Block _block);
