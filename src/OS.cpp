@@ -117,6 +117,8 @@ void OS::resetPageTable()
 	 * 1. delete[] pageTable.blocks;
 	 * 2. pageTable.blocks = new Block[size]
 	*/
+	delete[] pageTable.blocks;
+	pageTable.blocks = new Block[references.size()];
 	fillPageTable();
 }
 

@@ -27,7 +27,7 @@ public:
 	std::vector<std::string> &getReferences();
 	void setReferences(std::vector<std::string> &_references);
 
-	void runAlgorithm(Table pageTable, Table frameTable);
+	void runAlgorithm(Table &pageTable, Table &frameTable);
 };
 
 #endif

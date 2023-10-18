@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	/* Create OS instance and call algorithms */
 	OS os(references, QTY_FRAMES);
 
-	// os.runFIFO();
+	os.runFIFO();
 	// os.runLRU();
 	// os.runOptimal();
 

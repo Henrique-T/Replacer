@@ -21,10 +21,14 @@ void Algorithm::setReferences(std::vector<std::string> &_references)
 	references = _references;
 }
 
-
-void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
+void Algorithm::runAlgorithm(Table &pageTable, Table &frameTable)
 {
-	int pageFaults = 0;
+	int pageFaultsFIFO = 0;
+	int pageFaultsLRU = 0;
+	int pageFaultsOPT = 0;
+	int frameQuantity = 0;
+	int refQuantity = 0;
+
 	// FIFO
 	// For each reference in references
 	// 1. try to find that reference in PT
@@ -35,11 +39,6 @@ void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
 	// 3.3. Update PT mapping (meaning, set presence bits)
 
 	std::cout << "FIFO" << std::endl;
-
-	// for (std::size_t i = 0; i < references.size(); i++)
-	// {
-	// 	std::cout << references.at(i) << std::endl;
-	// }
 
 	for (std::size_t i = 0; i < references.size(); i++)
 	{
@@ -55,8 +54,8 @@ void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
 		else
 		{
 			std::cout << "Page fault!" << std::endl;
-			pageFaults += 1;
-			
+			pageFaultsFIFO += 1;
+
 			Block oldestBlockInFT = frameTable.popFront();
 			// _os.moveFrameToDisk(oldestBlockInFT);
 			// Block requestedBlock = _os.getFrameFromDisk(atoi(references[i].c_str()));
@@ -84,4 +83,10 @@ void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
 	// 2. If found, go to FT to get the page
 	// 3. If not found, print "PAGE FAULT"
 	// 3.1 ?
+
+	std::cout << frameQuantity << " quadros" << std::endl;
+	std::cout << refQuantity << " refs" << std::endl;
+	std::cout << "FIFO: " << pageFaultsFIFO << std::endl;
+	std::cout << "LRU: " << pageFaultsLRU << std::endl;
+	std::cout << "OPT: " << pageFaultsOPT << std::endl;
 }
