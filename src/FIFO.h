@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
+#include <functional>
 #include <bits/stdc++.h>
 #include "Algorithm.h"
 #include "Table.h"
@@ -20,7 +21,7 @@ public:
 	FIFO();
 	~FIFO();
 
-	void run(Table pageTable, Table frameTable);
+	void run(Table pageTable, Table frameTable, std::function<void(Block)> moveFrameToDisk, std::function<Block (int)> getFrameFromDisk);
 };
 
 #endif

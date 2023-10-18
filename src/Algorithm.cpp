@@ -3,9 +3,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <bits/stdc++.h>
+#include <functional>
 #include <bits/stdc++.h>
 #include "Algorithm.h"
+
+using namespace std;
 
 Algorithm::Algorithm() {}
 
@@ -22,7 +24,13 @@ void Algorithm::setReferences(std::vector<std::string> &_references)
 }
 
 
-void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
+void Algorithm::runAlgorithm(
+	Table pageTable, 
+	Table frameTable,
+	std::function<void(Block)> moveFrameToDisk,
+	std::function<Block (int)> getFrameFromDisk,
+	std::string algorithm
+	)
 {
 	int pageFaults = 0;
 	// FIFO
@@ -34,7 +42,7 @@ void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
 	// 3.2 bring the requested page from disk and insert that into FT.
 	// 3.3. Update PT mapping (meaning, set presence bits)
 
-	std::cout << "FIFO" << std::endl;
+	std::cout << algorithm << std::endl;
 
 	// for (std::size_t i = 0; i < references.size(); i++)
 	// {
@@ -57,10 +65,19 @@ void Algorithm::runAlgorithm(Table pageTable, Table frameTable)
 			std::cout << "Page fault!" << std::endl;
 			pageFaults += 1;
 			
-			Block oldestBlockInFT = frameTable.popFront();
-			// _os.moveFrameToDisk(oldestBlockInFT);
-			// Block requestedBlock = _os.getFrameFromDisk(atoi(references[i].c_str()));
-			// pageTable.pushFront(requestedBlock);
+			Block oldestBlockInFt;
+
+			if (algorithm == "FIFO") {
+				Block oldestBlockInFT = frameTable.popFront();
+			} else if (algorithm == "LRU") {
+				Block oldestBlockInFT = frameTable.popFront(); // Wrong statement for LRU
+			} else {
+				Block oldestBlockInFT = frameTable.popFront();
+			}
+			
+			moveFrameToDisk(oldestBlockInFt);
+			Block requestedBlock = getFrameFromDisk(atoi(references[i].c_str()));
+			frameTable.pushFront(requestedBlock);
 		}
 	}
 

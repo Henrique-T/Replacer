@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
+#include <functional>
 #include <bits/stdc++.h>
 #include "OS.h"
 
-using namespace std;
 
 /* HELPER FUNCTIONS AREA */
 
@@ -84,31 +84,25 @@ void OS::fillPageTable()
 	std::cout << "PT initial size: " << pageTable.getSize() << std::endl;
 	for (std::size_t i = 0; i < references.size(); i++)
 	{
-		string blockId = references[i];
-		if (!pageTable.contains(blockId))
+		std::string blockIdStr = references[i];
+		int blockId = atoi(blockIdStr.c_str());
+		if (!pageTable.contains(blockIdStr))
 		{
-			Block newBlock(atoi(blockId.c_str()), "Page");
+			Block newBlock(blockId, "Page");
 			getPageTable().pushBack(newBlock);
 		}
+		else {
+			// If this block already exists in the table, it means that we are referencing it again,
+			// and we will increase its number of references.
+			Block existentBlock = getPageTable().at(getPageTable().find(blockIdStr));
+			existentBlock.incrementCounter(1);
+		}
 	}
-
-	// Table pageTable = getPageTable();
-	// for (size_t i = 0; i < references.size(); i++)
-	// {
-	// 	string blockId = references[i];
-	// 	Block newBlock(atoi(blockId.c_str()), "Page");
-	// 	if (pageTable.contains(blockId)) {
-	// 		delete &newBlock;
-	// 		Block existingBlock = pageTable.at(blockId);
-	// 	}
-
-	// 	getPageTable().pushBack(newBlock);
-	// }
 
 	std::cout << "PT final size: " << pageTable.getSize() << std::endl;
 }
 
-void OS::resetPageTable()
+void OS::resetTables()
 {
 	// We should think how we can free the memory allocated by the previous FT
 	/**
@@ -117,35 +111,46 @@ void OS::resetPageTable()
 	 * 1. delete[] pageTable.blocks;
 	 * 2. pageTable.blocks = new Block[size]
 	*/
-	fillPageTable();
+
+	// ERRATA!!! A gente tem que resetar a frame table, e não a page table. (e acredito que esvaziar o disco)
+	// Renomeei as funçoes
+	/*
+	We could simply empty the Table and the disk vector
+	*/
+	// frameTable.clear(); We need to implement a method for tables
+	// Reset all presence bits from PageTable
+	disk.clear();
 }
 
 void OS::runFIFO()
 {
 	getFifo().run(
 		pageTable,
-		frameTable
-		// specific FIFO parameters here
+		frameTable,
+		std::bind(&OS::moveFrameToDisk, this, std::placeholders::_1),
+		std::bind(&OS::getFrameFromDisk, this, std::placeholders::_1)
 	);
-	resetPageTable(); // Every end of algorithm resets the page table
+	resetTables(); // Every end of algorithm resets the page table
 }
 
 void OS::runLRU()
 {
-	getLru().runAlgorithm(
-		pageTable,
-		frameTable
-		// specific LRU parameters here
-	);
-	resetPageTable(); // Every end of algorithm resets the page table
+	// getLru().runAlgorithm(
+	// 	pageTable,
+	// 	frameTable,
+	// 	moveFrameToDisk,
+	// 	getFrameFromDisk,
+	// );
+	resetTables(); // Every end of algorithm resets the page table
 }
 
 void OS::runOptimal()
 {
-	getOptiomal().runAlgorithm(
-		pageTable,
-		frameTable
-		// specific Optimal parameters here
-	);
-	resetPageTable(); // Every end of algorithm resets the page table
+	// getOptiomal().runAlgorithm(
+	// 	pageTable,
+	// 	frameTable,
+	// 	moveFrameToDisk,
+	// 	getFrameFromDisk
+	// );
+	resetTables(); // Every end of algorithm resets the page table
 }
