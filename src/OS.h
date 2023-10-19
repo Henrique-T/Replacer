@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
+#include <functional>
 #include <bits/stdc++.h>
 #include "Table.h"
 #include "Block.h"
@@ -44,7 +45,7 @@ public:
 
 	Table &getPageTable();
 	void fillPageTable();
-	void resetPageTable();
+	void resetTables();
 
 	void runFIFO();
 	void runLRU();

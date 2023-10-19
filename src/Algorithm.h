@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <functional>
 #include <bits/stdc++.h>
 #include "Table.h"
 #include "Block.h"
@@ -27,7 +28,12 @@ public:
 	std::vector<std::string> &getReferences();
 	void setReferences(std::vector<std::string> &_references);
 
-	void runAlgorithm(Table &pageTable, Table &frameTable);
+	void runAlgorithm(
+		Table pageTable,
+		Table frameTable,
+		std::function<void(Block)> moveFrameToDisk,
+		std::function<Block(int)> getFrameFromDisk,
+		std::string algorithm);
 };
 
 #endif
