@@ -29,11 +29,11 @@ public:
 	void setReferences(std::vector<std::string> &_references);
 
 	void runAlgorithm(
-		Table pageTable,
-		Table frameTable,
-		std::function<void(Block)> moveFrameToDisk,
-		std::function<Block(int)> getFrameFromDisk,
-		std::string algorithm);
+		Table &_pageTable,
+		Table &_frameTable,
+		std::function<void(Block)> _moveFrameToDisk,
+		std::function<Block(int)> _getFrameFromDisk,
+		const std::string &algorithm);
 };
 
 #endif
