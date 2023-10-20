@@ -75,7 +75,7 @@ Block Table::popFront()
 		blocks[position] = blocks[position + 1];
 		position = position + 1;
 	}
-	size -= 1;
+	size -= 1; // Why do we need this instruction after the while?
 	return aux;
 }
 
@@ -98,6 +98,32 @@ Block &Table::at(size_t _index)
 	return blocks[_index];
 }
 
+std::size_t Table::find(const std::string &_blockId)
+{
+	std::size_t position = 0;
+	int blockId = atoi(_blockId.c_str());
+	while (position < getSize() && !(blockId == blocks[position].getId()))
+	{
+		position += 1;
+	}
+	return position;
+}
+
+bool Table::contains(const std::string &_blockId)
+{
+	std::size_t position = 0;
+	int blockId = atoi(_blockId.c_str());
+	while (position < getSize())
+	{
+		if (blocks[position].getId() == blockId && blocks[position].isBlockPresent())
+		{
+			return true;
+		}
+		position += 1;
+	}
+	return false;
+}
+
 std::size_t Table::getMaxSize()
 {
 	return maxSize;
@@ -108,3 +134,9 @@ std::size_t Table::getSize()
 	/* Returns size + 1 because size points to the position of the last item inserted. */
 	return size + 1;
 }
+
+void Table::setKind(const std::string &_kind) { kind = _kind; }
+void Table::setSize(const std::size_t _size) { size = _size; }
+void Table::setMaxSize(const std::size_t _maxSize) { maxSize = _maxSize; }
+void Table::setBlocks() { blocks = new Block[maxSize]; }
+void Table::recalculateReach(int line) {}

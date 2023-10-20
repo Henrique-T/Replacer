@@ -1,22 +1,13 @@
-#ifndef LRU_H
-#define LRU_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
 #include <bits/stdc++.h>
 #include "Algorithm.h"
+#include "Table.h"
+#include "Block.h"
+#include "LRU.h"
 
-/*
-*
-*/
-class LRU : public Algorithm
-{
-private:
-public:
-	LRU();
-	~LRU();
-};
+LRU::LRU() {}
 
-#endif
+LRU::~LRU() {}

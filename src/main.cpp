@@ -6,14 +6,13 @@
 #include <bits/stdc++.h>
 #include "Table.h"
 #include "Block.h"
+#include "OS.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
 	int QTY_FRAMES = atoi(argv[1]);
-	int VIRTUAL_SPACE_SIZE = 100; /* We are waiting on an answer from the Professor to know this value. */
-
 	vector<string> references;
 
 	/* Store input file data into vector references */
@@ -22,6 +21,14 @@ int main(int argc, char *argv[])
 		references.push_back(line);
 	}
 
+	/* Create OS instance and call algorithms */
+	OS os(references, QTY_FRAMES);
+
+	os.runFIFO();
+	// os.runLRU();
+	// os.runOptimal();
+
+	/* TESTS */
 	/* 
 	* What data should we initialize them with? 
 	*/
@@ -40,8 +47,6 @@ int main(int argc, char *argv[])
 	// {
 	// 	std::cout << i << ":" << pageTable.at(i).getId() << ":" << pageTable.at(i).isBlockPresent() << std::endl;
 	// }
-
-	/* TESTS */
 
 	/* Create instance of Table */
 	// Table table("page table", references.size());
