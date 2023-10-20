@@ -14,13 +14,13 @@ FIFO::FIFO() {}
 
 FIFO::~FIFO() {}
 
-void FIFO::run(Table pageTable, Table frameTable, std::function<void(Block)> moveFrameToDisk, std::function<Block(int)> getFrameFromDisk)
+void FIFO::run(Table &_pageTable, Table &_frameTable, std::function<void(Block)> _moveFrameToDisk, std::function<Block(int)> _getFrameFromDisk)
 {
 	runAlgorithm(
-		pageTable,
-		frameTable,
-		moveFrameToDisk,
-		getFrameFromDisk,
+		_pageTable,
+		_frameTable,
+		_moveFrameToDisk,
+		_getFrameFromDisk,
 		"FIFO"
 		// specific FIFO params
 	);

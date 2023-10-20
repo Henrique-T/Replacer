@@ -139,6 +139,4 @@ void Table::setKind(const std::string &_kind) { kind = _kind; }
 void Table::setSize(const std::size_t _size) { size = _size; }
 void Table::setMaxSize(const std::size_t _maxSize) { maxSize = _maxSize; }
 void Table::setBlocks() { blocks = new Block[maxSize]; }
-void Table::recalculateReach(int line) {
-	
-}
+void Table::recalculateReach(int line) {}

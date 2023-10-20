@@ -31,7 +31,8 @@ public:
 	std::string getAddressInFT();
 	void setAddressInFT(std::string &_address);
 	int getCounter();
-	int incrementCounter(int _increment);
+	void incrementCounter(int _increment);
+	void setPresenceBit(const bool _bit);
 };
 
 #endif

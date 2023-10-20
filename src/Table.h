@@ -50,6 +50,7 @@ public:
 	void setSize(const std::size_t _size);
 	void setMaxSize(const std::size_t _maxSize);
 	void setBlocks();
+
 	void recalculateReach(int line);
 };
 

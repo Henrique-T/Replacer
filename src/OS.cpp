@@ -65,7 +65,12 @@ Block &OS::getFrameFromDisk(int _id)
 	return block;
 }
 
-Block &OS::removeFrameFromDisk(int _id) {}
+Block &OS::removeFrameFromDisk(int _id)
+{
+	/* Return a default block just so we don't get a warning. */
+	static Block block;
+	return block;
+}
 
 FIFO &OS::getFifo() { return fifo; }
 LRU &OS::getLru() { return lru; }
@@ -105,21 +110,17 @@ void OS::fillPageTable()
 
 void OS::resetTables()
 {
-	// We should think how we can free the memory allocated by the previous FT
-	/**
-	 * If we use delete[] pageTable.blocks here, we will have to initialize it again.
-	 * For example:
-	 * 1. delete[] pageTable.blocks;
-	 * 2. pageTable.blocks = new Block[size]
-	*/
+	/* Reset presence bits in PT */
+	for (std::size_t i = 0; i < pageTable.getSize(); i++)
+	{
+		pageTable.at(i).setPresenceBit(0);
+	}
 
-	// ERRATA!!! A gente tem que resetar a frame table, e não a page table. (e acredito que esvaziar o disco)
-	// Renomeei as funçoes
-	/*
-	We could simply empty the Table and the disk vector
-	*/
-	// frameTable.clear(); We need to implement a method for tables
-	// Reset all presence bits from PageTable
+	/* Reset FT */
+	delete[] pageTable.blocks;
+	pageTable.blocks = new Block[QTY_FRAMES];
+
+	/* Clear disk */
 	disk.clear();
 }
 

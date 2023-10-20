@@ -37,4 +37,6 @@ std::string Block::getAddressInFT() { return addressInFT; }
 void Block::setAddressInFT(std::string &_address) { addressInFT = _address; }
 
 int Block::getCounter() { return counter; }
-int Block::incrementCounter(int _increment) { counter = counter + _increment; }
+void Block::incrementCounter(int _increment) { counter = counter + _increment; }
+
+void Block::setPresenceBit(const bool _bit) { presence = _bit; }
