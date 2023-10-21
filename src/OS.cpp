@@ -33,6 +33,8 @@ OS::OS(std::vector<std::string> &_references, int &_QTY_FRAMES)
 	pageTable.setKind("page table");
 	pageTable.setMaxSize(_references.size());
 	fillPageTable();
+
+	fifo.setReferences(_references);
 }
 
 OS::~OS() {}

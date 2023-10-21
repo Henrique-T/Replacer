@@ -66,11 +66,12 @@ void Algorithm::runAlgorithm(
 
 	std::cout << _algorithm << std::endl;
 
-	std::vector<Block> frameTable; 
+	std::vector<Block> frameTable;
 
 	for (std::size_t i = 0; i < references.size(); i++)
 	{
-		if (_pageTable.contains(references[i]))
+		std::cout << "Página: " << references[i];
+		if (_pageTable.isPresentInFT(references[i]))
 		{
 			std::cout << "Page found in FT!" << std::endl;
 			std::size_t blockIndex = _pageTable.find(references[i]);
@@ -86,10 +87,15 @@ void Algorithm::runAlgorithm(
 
 			if (_algorithm == "FIFO")
 			{
-				Block oldestBlockInFT = frameTable.at(0);
-				oldestBlockInFT.setPresenceBit(0);
-
-				frameTable.erase(frameTable.begin()); // Remove first block from frame table
+				
+				if (frameTable.size() == 4) {
+					Block oldestBlockInFT = frameTable.at(0);
+					oldestBlockInFT.setPresenceBit(0);
+					
+					// Remove first block from frame table
+					frameTable.erase(frameTable.begin());
+					std::cout << "Chegou auqi" << std::endl;
+				}
 			}
 			else if (_algorithm == "LRU")
 			{
@@ -107,8 +113,16 @@ void Algorithm::runAlgorithm(
 
 			frameTable.insert(frameTable.begin(), requestedBlock);
 			requestedBlock.setPresenceBit(1);
+			printf("FRAME TABLE: ");
+			for (std::size_t i = 0; i < frameTable.size(); i++) 
+			{
+				// Set a really big number for reach (meaning big numbers represent blocks that won't be referenced anymore)
+				int blockId = frameTable.at(i).getId();
+				std::cout << blockId;
+				printf(",");
+			}
 		}
 	}
 
-	std::cout << _algorithm << pageFaults << std::endl;
+	std::cout << _algorithm << ": " << pageFaults << std::endl;
 }

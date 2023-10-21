@@ -28,11 +28,6 @@ public:
 
 	void pushBack(const Block &_data);
 	void pushFront(const Block &_data);
-	void insert(const Block &_data, std::size_t _index);
-	void removeBlock(const Block* _data);
-
-	Block popBack();
-	Block popFront();
 
 	bool full();
 	bool empty();
@@ -42,13 +37,13 @@ public:
 	/* Returns position of given block */
 	std::size_t find(const std::string &_blockId);
 	/* Checks if block exists and if it is present */
+	bool isPresentInFT(const std::string &_blockId);
 	bool contains(const std::string &_blockId);
 
 	std::size_t getMaxSize();
 	std::size_t getSize();
 	void setKind(const std::string &_kind);
 	void setMaxSize(const std::size_t _maxSize);
-	void setBlocks();
 
 	void resetReachCounters();
 	void recalculateReach(int line, std::vector<std::string> &_references);

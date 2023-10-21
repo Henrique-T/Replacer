@@ -46,6 +46,15 @@ void Table::pushBack(const Block &_data)
 		return;
 	}
 	blocks.push_back(_data);
+
+	// printf("Contém [");
+	// for (std::size_t i = 0; i < blocks.size(); i++) 
+	// {
+	// 	// Set a really big number for reach (meaning big numbers represent blocks that won't be referenced anymore)
+	// 	int blockId = blocks.at(i).getId();
+	// 	std::cout << blockId;
+	// 	printf(",");
+	// }
 }
 
 void Table::pushFront(const Block &_data)
@@ -57,21 +66,6 @@ void Table::pushFront(const Block &_data)
 	blocks.insert(blocks.begin(), _data);
 }
 
-Block Table::popBack()
-{
-	if (empty())
-		throw std::out_of_range("table is empty");
-
-	return blocks.back();
-}
-
-Block Table::popFront()
-{
-	if (empty())
-		throw std::out_of_range("table is empty");
-	Block firstBlock = blocks.at(0);
-	return blocks.at(0);
-}
 
 bool Table::full()
 {
@@ -102,6 +96,21 @@ std::size_t Table::find(const std::string &_blockId)
 	return position;
 }
 
+bool Table::isPresentInFT(const std::string &_blockId)
+{
+	/* This method checks if a certain block has its present bit = 1, which means it's currently in the Frame Table */
+	int blockId = atoi(_blockId.c_str());
+	for (std::size_t i = 0; i < blocks.size(); i++) 
+	{
+		Block currentBlock = blocks.at(i);
+		if (currentBlock.getId() == blockId && currentBlock.isBlockPresent())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 bool Table::contains(const std::string &_blockId)
 {
 	std::size_t position = 0;
@@ -109,7 +118,7 @@ bool Table::contains(const std::string &_blockId)
 	while (position < getSize())
 	{
 		Block currentBlock = blocks.at(position);
-		if (currentBlock.getId() == blockId && currentBlock.isBlockPresent())
+		if (currentBlock.getId() == blockId)
 		{
 			return true;
 		}
