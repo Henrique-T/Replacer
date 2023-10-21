@@ -67,8 +67,8 @@ void OS::fillPageTable()
 		{
 			// If this block already exists in the table, it means that we are referencing it again,
 			// and we will increase its number of references.
-			Block existentBlock = getPageTable().at(getPageTable().find(blockIdStr));
-			existentBlock.incrementCounter(1);
+			Block* existentBlock = getPageTable().at(getPageTable().find(blockIdStr));
+			existentBlock->incrementCounter(1);
 		}
 	}
 
@@ -80,7 +80,7 @@ void OS::resetTables()
 	/* Reset presence bits in PT */
 	for (std::size_t i = 0; i < pageTable.getSize(); i++)
 	{
-		pageTable.at(i).setPresenceBit(0);
+		pageTable.at(i)->setPresenceBit(0);
 	}
 }
 

@@ -33,7 +33,7 @@ public:
 	bool empty();
 
 	/* Returns block at a given position */
-	Block &at(std::size_t _index);
+	Block* at(std::size_t _index);
 	/* Returns position of given block */
 	std::size_t find(const std::string &_blockId);
 	/* Checks if block exists and if it is present */

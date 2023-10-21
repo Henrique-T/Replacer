@@ -77,12 +77,12 @@ bool Table::empty()
 	return (getSize() == 0);
 }
 
-Block &Table::at(size_t _index)
+Block* Table::at(size_t _index)
 {
 	if (empty())
 		throw std::out_of_range("table is empty");
 
-	return blocks.at(_index);
+	return &blocks.at(_index);
 }
 
 std::size_t Table::find(const std::string &_blockId)
@@ -153,10 +153,10 @@ void Table::recalculateReach(int line, std::vector<std::string> &_references) {
 	int numberOfInstructions = 0;
 	for (std::size_t i = line; i < _references.size(); i++) // We iterate starting from the 'line' index reference
 	{
-		Block currentBlock = at(find(_references[i]));
-		if (currentBlock.getReachCounter() > numberOfInstructions) {
+		Block* currentBlock = at(find(_references[i]));
+		if (currentBlock->getReachCounter() > numberOfInstructions) {
 			// Only replace the reach counter in case the upcoming number of instructions is less than the one already stored
-			currentBlock.setReachCounter(numberOfInstructions); 
+			currentBlock->setReachCounter(numberOfInstructions); 
 		}
 		numberOfInstructions += 1;
 	}

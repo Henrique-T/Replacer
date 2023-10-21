@@ -23,8 +23,8 @@ void Algorithm::setReferences(std::vector<std::string> &_references)
 	references = _references;
 }
 
-bool Algorithm::compareBlocksByReachCounter(Block &a, Block &b) {
-	return a.getReachCounter() > b.getReachCounter();
+bool Algorithm::compareBlocksByReachCounter(const Block* a, const Block* b) {
+	return a->getReachCounter() > b->getReachCounter();
 };
 
 void Algorithm::runAlgorithm(
@@ -66,16 +66,15 @@ void Algorithm::runAlgorithm(
 
 	std::cout << _algorithm << std::endl;
 
-	std::vector<Block> frameTable;
+	std::vector<Block*> frameTable;
 
 	for (std::size_t i = 0; i < references.size(); i++)
 	{
-		std::cout << "Página: " << references[i];
 		if (_pageTable.isPresentInFT(references[i]))
 		{
 			std::cout << "Page found in FT!" << std::endl;
 			std::size_t blockIndex = _pageTable.find(references[i]);
-			std::cout << "Block " << _pageTable.at(blockIndex).getId() << "was gotten from FT" << std::endl;
+			//std::cout << "Block " << _pageTable.at(blockIndex)->getId() << "was gotten from FT" << std::endl;
 		}
 		else
 		{
@@ -83,19 +82,19 @@ void Algorithm::runAlgorithm(
 			pageFaults += 1;
 
 			std::size_t blockIndex = _pageTable.find(references[i]);
-			Block requestedBlock = _pageTable.at(blockIndex);
+			Block* requestedBlock = _pageTable.at(blockIndex);
 
 			if (_algorithm == "FIFO")
 			{
 				
 				if (frameTable.size() == 4) {
-					Block oldestBlockInFT = frameTable.at(0);
-					oldestBlockInFT.setPresenceBit(0);
+					Block* oldestBlockInFT = frameTable.at(0);
+					oldestBlockInFT->setPresenceBit(0);
 					
 					// Remove first block from frame table
 					frameTable.erase(frameTable.begin());
-					std::cout << "Chegou auqi" << std::endl;
 				}
+				frameTable.push_back(requestedBlock);
 			}
 			else if (_algorithm == "LRU")
 			{
@@ -106,21 +105,22 @@ void Algorithm::runAlgorithm(
 				_pageTable.recalculateReach(i, references);
 				std::sort(frameTable.begin(), frameTable.end(), compareBlocksByReachCounter);
 
-				Block blockWithLeastFutureReferencesInFT = frameTable.at(0); // We get the first block after reordering
-				blockWithLeastFutureReferencesInFT.setPresenceBit(0);
+				Block* blockWithLeastFutureReferencesInFT = frameTable.at(0); // We get the first block after reordering
+				blockWithLeastFutureReferencesInFT->setPresenceBit(0);
 				frameTable.erase(frameTable.begin());
 			}
 
-			frameTable.insert(frameTable.begin(), requestedBlock);
-			requestedBlock.setPresenceBit(1);
-			printf("FRAME TABLE: ");
-			for (std::size_t i = 0; i < frameTable.size(); i++) 
-			{
-				// Set a really big number for reach (meaning big numbers represent blocks that won't be referenced anymore)
-				int blockId = frameTable.at(i).getId();
-				std::cout << blockId;
-				printf(",");
-			}
+			//frameTable.insert(frameTable.begin(), requestedBlock);
+
+			requestedBlock->setPresenceBit(1);
+		}
+		printf("FRAME TABLE: ");
+		for (std::size_t i = 0; i < frameTable.size(); i++) 
+		{
+			// Set a really big number for reach (meaning big numbers represent blocks that won't be referenced anymore)
+			int blockId = frameTable.at(i)->getId();
+			std::cout << blockId;
+			printf(",");
 		}
 	}
 
