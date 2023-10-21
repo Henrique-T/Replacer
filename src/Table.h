@@ -17,11 +17,10 @@ class Table
 {
 private:
 	std::string kind;	 /* "page table" or "frame table" */
-	std::size_t size;	 /* Current size. WARNING: this points to the position of the last item. */
 	std::size_t maxSize; /* Actual size of the table */
 
 public:
-	Block *blocks;
+	std::vector<Block> blocks;
 	Table();
 	Table(std::string _kind, std::size_t _maxSize);
 	Table(std::string _kind);
@@ -30,6 +29,7 @@ public:
 	void pushBack(const Block &_data);
 	void pushFront(const Block &_data);
 	void insert(const Block &_data, std::size_t _index);
+	void removeBlock(const Block* _data);
 
 	Block popBack();
 	Block popFront();
@@ -47,11 +47,11 @@ public:
 	std::size_t getMaxSize();
 	std::size_t getSize();
 	void setKind(const std::string &_kind);
-	void setSize(const std::size_t _size);
 	void setMaxSize(const std::size_t _maxSize);
 	void setBlocks();
 
-	void recalculateReach(int line);
+	void resetReachCounters();
+	void recalculateReach(int line, std::vector<std::string> &_references);
 };
 
 #endif

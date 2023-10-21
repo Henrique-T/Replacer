@@ -28,6 +28,8 @@ public:
 	std::vector<std::string> &getReferences();
 	void setReferences(std::vector<std::string> &_references);
 
+	static bool compareBlocksByReachCounter(const Block &a, const Block &b);
+
 	void runAlgorithm(
 		Table &_pageTable,
 		Table &_frameTable,

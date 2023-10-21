@@ -19,13 +19,14 @@ private:
 	std::string kind;		 /* "Page" or "Frame" */
 	std::string addressInFT; /* Address stored in PT that maps to FT */
 	int counter;
+	int reachCounter; /* This counter represents the amount of instructions needed to reach this block again starting from a certain instruction */
 
 public:
 	Block();
 	Block(int _id, std::string _kind);
 	~Block();
 
-	int getId();
+	int getId() const;
 	bool isBlockPresent();
 	std::string getKind();
 	std::string getAddressInFT();
@@ -33,6 +34,8 @@ public:
 	int getCounter();
 	void incrementCounter(int _increment);
 	void setPresenceBit(const bool _bit);
+	int getReachCounter() const;
+	void setReachCounter(int &_value);
 };
 
 #endif

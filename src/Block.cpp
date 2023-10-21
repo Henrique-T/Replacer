@@ -18,7 +18,7 @@ Block::Block(int _id, std::string _kind)
 
 Block::~Block() {}
 
-int Block::getId()
+int Block::getId() const
 {
 	return id;
 }
@@ -38,5 +38,5 @@ void Block::setAddressInFT(std::string &_address) { addressInFT = _address; }
 
 int Block::getCounter() { return counter; }
 void Block::incrementCounter(int _increment) { counter = counter + _increment; }
-
-void Block::setPresenceBit(const bool _bit) { presence = _bit; }
+int Block::getReachCounter() const { return this->reachCounter; }
+void Block::setReachCounter(int &_value) { reachCounter = _value; }

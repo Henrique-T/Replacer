@@ -33,14 +33,12 @@ OS::OS(std::vector<std::string> &_references, int &_QTY_FRAMES)
 	pageTable.setKind("page table");
 	pageTable.setMaxSize(_references.size());
 	pageTable.setBlocks();
-	pageTable.setSize(-1);
 
 	fillPageTable();
 
 	frameTable.setKind("frame table");
 	frameTable.setMaxSize(QTY_FRAMES);
 	frameTable.setBlocks();
-	frameTable.setSize(-1);
 }
 
 OS::~OS() {}
@@ -67,7 +65,7 @@ Block &OS::getFrameFromDisk(int _id)
 
 Block &OS::removeFrameFromDisk(int _id)
 {
-	/* Return a default block just so we don't get a warning. */
+	/* Return a default block just so we don't get a warning. */	
 	static Block block;
 	return block;
 }
@@ -117,8 +115,8 @@ void OS::resetTables()
 	}
 
 	/* Reset FT */
-	delete[] pageTable.blocks;
-	pageTable.blocks = new Block[QTY_FRAMES];
+	pageTable.blocks.clear();
+	//pageTable.blocks = new Block[QTY_FRAMES];
 
 	/* Clear disk */
 	disk.clear();
