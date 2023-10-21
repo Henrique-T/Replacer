@@ -21,7 +21,7 @@ public:
 	FIFO();
 	~FIFO();
 
-	void run(Table &_pageTable, Table &_frameTable, std::function<void(Block)> _moveFrameToDisk, std::function<Block(int)> _getFrameFromDisk);
+	void run(Table &_pageTable);
 };
 
 #endif

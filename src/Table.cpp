@@ -57,14 +57,6 @@ void Table::pushFront(const Block &_data)
 	blocks.insert(blocks.begin(), _data);
 }
 
-void Table::insert(const Block &_data, std::size_t _index) {};
-
-void Table::removeBlock(const Block* _data) {
-	size_t blockId = find(to_string(_data->getId()));
-	Block blockToRemove = at(blockId);
-	blockToRemove.setPresenceBit(0);
-};
-
 Block Table::popBack()
 {
 	if (empty())
@@ -139,7 +131,6 @@ std::size_t Table::getSize()
 
 void Table::setKind(const std::string &_kind) { kind = _kind; }
 void Table::setMaxSize(const std::size_t _maxSize) { maxSize = _maxSize; }
-//void Table::setBlocks() { blocks = new Block[maxSize]; }
 void Table::resetReachCounters() {
 	for (std::size_t i = 0; i < blocks.size(); i++) 
 	{

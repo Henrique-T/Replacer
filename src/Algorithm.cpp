@@ -23,23 +23,15 @@ void Algorithm::setReferences(std::vector<std::string> &_references)
 	references = _references;
 }
 
-bool compareBlocksByReachCounter(const Block &a, const Block &b) {
+bool Algorithm::compareBlocksByReachCounter(Block &a, Block &b) {
 	return a.getReachCounter() > b.getReachCounter();
 };
 
 void Algorithm::runAlgorithm(
 	Table &_pageTable,
-	Table &_frameTable,
-	std::function<void(Block)> _moveFrameToDisk,
-	std::function<Block(int)> _getFrameFromDisk,
-	const std::string &_algorithm)
+	const std::string &_algorithm
+	)
 {
-
-	/*
-	* TODO: Organize counter for page faults
-	* Will we need separate page faults for each algo? A: Nope, since we'll ran 3 different times, and the counter will be reset everytime
-	* In theory, as it is always the same PT, we won't. But his example showed different numbers.
-	*/
 	int pageFaults = 0;
 
 	// FIFO
@@ -106,7 +98,7 @@ void Algorithm::runAlgorithm(
 			else
 			{
 				_pageTable.recalculateReach(i, references);
-				std::sort(frameTable.begin(), frameTable.end(), this->compareBlocksByReachCounter);
+				std::sort(frameTable.begin(), frameTable.end(), compareBlocksByReachCounter);
 
 				Block blockWithLeastFutureReferencesInFT = frameTable.at(0); // We get the first block after reordering
 				blockWithLeastFutureReferencesInFT.setPresenceBit(0);

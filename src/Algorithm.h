@@ -28,13 +28,10 @@ public:
 	std::vector<std::string> &getReferences();
 	void setReferences(std::vector<std::string> &_references);
 
-	static bool compareBlocksByReachCounter(const Block &a, const Block &b);
+	static bool compareBlocksByReachCounter(Block &a, Block &b);
 
 	void runAlgorithm(
 		Table &_pageTable,
-		Table &_frameTable,
-		std::function<void(Block)> _moveFrameToDisk,
-		std::function<Block(int)> _getFrameFromDisk,
 		const std::string &algorithm);
 };
 
