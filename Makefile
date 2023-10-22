@@ -24,6 +24,9 @@ CPP_FLAGS=-c         \
 # Command used at clean target
 RM = rm -rf
 
+# Command-line arguments (default to 4)
+ARGS ?= 4
+
 #
 # Compilation and linking
 #
