@@ -23,24 +23,16 @@ void Algorithm::setReferences(std::vector<std::string> &_references)
 	references = _references;
 }
 
+bool Algorithm::compareBlocksByReachCounter(const Block *a, const Block *b)
+{
+	return a->getReachCounter() > b->getReachCounter();
+};
+
 void Algorithm::runAlgorithm(
 	Table &_pageTable,
-	Table &_frameTable,
-	std::function<void(Block)> _moveFrameToDisk,
-	std::function<Block(int)> _getFrameFromDisk,
 	const std::string &_algorithm)
 {
-
-	/*
-	* TODO: Organize counter for page faults
-	* Will we need separate page faults for each algo?
-	* In theory, as it is always the same PT, we won't. But his example showed different numbers.
-	*/
-	int pageFaultsFIFO = 0;
-	int pageFaultsLRU = 0;
-	int pageFaultsOPT = 0;
-	int frameQuantity = 0;
-	int refQuantity = 0;
+	int pageFaults = 0;
 
 	// FIFO
 	// For each reference in references
@@ -72,51 +64,72 @@ void Algorithm::runAlgorithm(
 	// 3. If not found, print "PAGE FAULT"
 	// 3.1 ?
 
-	std::cout << _algorithm << std::endl;
+	std::cout << "\n"
+			  << "## " << _algorithm << " ##" << std::endl;
+
+	std::vector<Block *> frameTable;
 
 	for (std::size_t i = 0; i < references.size(); i++)
 	{
-		if (_pageTable.contains(references[i]))
-		{
-			std::cout << "Page found in PT!" << std::endl;
+		std::cout << "\n"
+				  << "Requested page: " << references[i] << std::endl;
 
+		if (_pageTable.isPresentInFT(references[i]))
+		{
+			std::cout << "Page found in FT!" << std::endl;
 			std::size_t blockIndex = _pageTable.find(references[i]);
-			std::string address = _pageTable.at(blockIndex).getAddressInFT(); /* How to define position? */
-			Block block = _frameTable.at(atoi(address.c_str()));
-			std::cout << "Block " << block.getId() << "was gotten from FT" << std::endl;
+			//std::cout << "Block " << _pageTable.at(blockIndex)->getId() << "was gotten from FT" << std::endl;
 		}
 		else
 		{
 			std::cout << "Page fault!" << std::endl;
-			pageFaultsFIFO += 1;
+			pageFaults += 1;
+
+			std::size_t blockIndex = _pageTable.find(references[i]);
+			Block *requestedBlock = _pageTable.at(blockIndex);
 
 			if (_algorithm == "FIFO")
 			{
-				Block oldestBlockInFT = _frameTable.popFront();
-				_moveFrameToDisk(oldestBlockInFT);
-				Block requestedBlock = _getFrameFromDisk(atoi(references[i].c_str()));
-				_frameTable.pushFront(requestedBlock);
+				if (frameTable.size() == 4)
+				{
+					Block *oldestBlockInFT = frameTable.at(0);
+					oldestBlockInFT->setPresenceBit(0);
+
+					// Remove first block from frame table
+					frameTable.erase(frameTable.begin());
+				}
+				frameTable.push_back(requestedBlock);
 			}
 			else if (_algorithm == "LRU")
 			{
-				Block leastRecentlyUsedBlockInFT = _frameTable.popFront(); // Wrong statement for LRU
-				_moveFrameToDisk(leastRecentlyUsedBlockInFT);
-				Block requestedBlock = _getFrameFromDisk(atoi(references[i].c_str()));
-				_frameTable.pushFront(requestedBlock); // Are we going to push front for this?
+				//Block leastRecentlyUsedBlockInFT = _frameTable.popFront(); // Wrong statement for LRU
 			}
 			else
 			{
-				Block blockWithLeastFutureReferencesInFT = _frameTable.popFront(); // Is this the right statement for optimal?
-				_moveFrameToDisk(blockWithLeastFutureReferencesInFT);
-				Block requestedBlock = _getFrameFromDisk(atoi(references[i].c_str()));
-				_frameTable.pushFront(requestedBlock); // Are we going to push front for this?
+				_pageTable.recalculateReach(i, references);
+				std::sort(frameTable.begin(), frameTable.end(), compareBlocksByReachCounter);
+
+				Block *blockWithLeastFutureReferencesInFT = frameTable.at(0); // We get the first block after reordering
+				blockWithLeastFutureReferencesInFT->setPresenceBit(0);
+				frameTable.erase(frameTable.begin());
+			}
+			//frameTable.insert(frameTable.begin(), requestedBlock);
+			requestedBlock->setPresenceBit(1);
+		}
+
+		std::cout << "FRAME TABLE: ";
+		for (std::size_t i = 0; i < frameTable.size(); i++)
+		{
+			// Set a really big number for reach (meaning big numbers represent blocks that won't be referenced anymore)
+			int blockId = frameTable.at(i)->getId();
+			std::cout << blockId;
+			if (!(i == frameTable.size() - 1))
+			{
+				std::cout << ",";
 			}
 		}
 	}
 
-	std::cout << frameQuantity << " quadros" << std::endl;
-	std::cout << refQuantity << " refs" << std::endl;
-	std::cout << "FIFO: " << pageFaultsFIFO << std::endl;
-	std::cout << "LRU: " << pageFaultsLRU << std::endl;
-	std::cout << "OPT: " << pageFaultsOPT << std::endl;
+	std::cout << "\n"
+			  << _algorithm << ": " << pageFaults << " PFs" << std::endl;
 }

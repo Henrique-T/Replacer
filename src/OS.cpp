@@ -32,45 +32,12 @@ OS::OS(std::vector<std::string> &_references, int &_QTY_FRAMES)
 
 	pageTable.setKind("page table");
 	pageTable.setMaxSize(_references.size());
-	pageTable.setBlocks();
-	pageTable.setSize(-1);
-
 	fillPageTable();
 
-	frameTable.setKind("frame table");
-	frameTable.setMaxSize(QTY_FRAMES);
-	frameTable.setBlocks();
-	frameTable.setSize(-1);
+	fifo.setReferences(_references);
 }
 
 OS::~OS() {}
-
-void OS::moveFrameToDisk(Block _block)
-{
-	disk.push_back(_block);
-}
-
-Block &OS::getFrameFromDisk(int _id)
-{
-	if (disk.empty())
-		throw std::out_of_range("Disk is empty");
-	for (size_t i = 0; i < disk.size(); i++)
-	{
-		if (disk[i].getId() == _id)
-		{
-			return disk[i];
-		}
-	}
-	static Block block;
-	return block;
-}
-
-Block &OS::removeFrameFromDisk(int _id)
-{
-	/* Return a default block just so we don't get a warning. */
-	static Block block;
-	return block;
-}
 
 FIFO &OS::getFifo() { return fifo; }
 LRU &OS::getLru() { return lru; }
@@ -93,15 +60,15 @@ void OS::fillPageTable()
 		int blockId = atoi(blockIdStr.c_str());
 		if (!pageTable.contains(blockIdStr))
 		{
-			Block newBlock(blockId, "Page");
+			Block newBlock(blockId);
 			getPageTable().pushBack(newBlock);
 		}
 		else
 		{
 			// If this block already exists in the table, it means that we are referencing it again,
 			// and we will increase its number of references.
-			Block existentBlock = getPageTable().at(getPageTable().find(blockIdStr));
-			existentBlock.incrementCounter(1);
+			Block* existentBlock = getPageTable().at(getPageTable().find(blockIdStr));
+			existentBlock->incrementCounter(1);
 		}
 	}
 
@@ -113,24 +80,15 @@ void OS::resetTables()
 	/* Reset presence bits in PT */
 	for (std::size_t i = 0; i < pageTable.getSize(); i++)
 	{
-		pageTable.at(i).setPresenceBit(0);
+		pageTable.at(i)->setPresenceBit(0);
 	}
-
-	/* Reset FT */
-	delete[] pageTable.blocks;
-	pageTable.blocks = new Block[QTY_FRAMES];
-
-	/* Clear disk */
-	disk.clear();
 }
 
 void OS::runFIFO()
 {
 	getFifo().run(
-		pageTable,
-		frameTable,
-		std::bind(&OS::moveFrameToDisk, this, std::placeholders::_1),
-		std::bind(&OS::getFrameFromDisk, this, std::placeholders::_1));
+		pageTable
+	);
 	resetTables(); // Every end of algorithm resets the page table
 }
 
